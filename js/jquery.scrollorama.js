@@ -101,6 +101,7 @@
 		function onScrollorama() {
 			var scrollTop = $(window).scrollTop(),
 			currBlockIndex = getCurrBlockIndex(scrollTop),
+			wheight = $(window).height(),
 			i, j, anim, startAnimPos, endAnimPos, animPercent, animVal;
 			
 			// update all animations
@@ -135,7 +136,7 @@
 						}
 						
 						// otherwise, set values per scroll position
-						if (i === currBlockIndex || (currBlockIndex === i-1 && anim.baseline === 'bottom')) {
+						if (blocks[i].top + blocks[i].block.height() >= scrollTop && blocks[i].top <= (scrollTop + wheight)) {
 							// if block gets pinned, set position fixed
 							if (blocks[i].pin && currBlockIndex === i) {
 								blocks[i].block
@@ -145,7 +146,7 @@
 							
 							// set start and end animation positions
 							startAnimPos = blocks[i].top + anim.delay;
-							if (anim.baseline === 'bottom') { startAnimPos -= $(window).height(); }
+							if (anim.baseline === 'bottom') { startAnimPos -= wheight; }
 							endAnimPos = startAnimPos + anim.duration;
 							
 							// if scroll is before start of animation, set to start value
